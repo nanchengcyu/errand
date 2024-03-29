@@ -8,6 +8,49 @@
 
 </body>
 <script>
-    
+    let arr = []
+    console.log('=========')
+    console.log(arr)
+
+    arr.push("aaa", 1, 2.0)
+    console.log(arr[0], arr[1])
+
+    //删除数组中的元素
+
+    arr.splice(0, 1) //从0开始删除1个元素
+    console.log(arr)
+    arr.shift()  //从头部删除
+    console.log(arr)
+    arr.pop()  //从尾部删除
+    console.log(arr)
+
+    let arr1 = [0, 1, 2, 3]
+    console.log(arr1)
+    let arr2 = arr1.slice(0, 3) //切割数组中的元素 包头不包尾 打印出来的效果为 0 1 2
+    console.log(arr2)
+
+    //字符串变数组
+    let str = "我爱灰太狼,南城余"
+    console.log(str.split(''))
+    console.log(str.split('，')) //，分割为数组
+
+    let arr3 = [0, 1, 2, 3]
+    console.log(arr3.indexOf(1)) //获取数组中对应坐标元素
+
+    //过滤条件数组中元素
+    let users = [{name: '南城', age: 20}, {name: '南城余', age: 18}]
+    let newUsers = users.filter(user => user.age >= 20)
+    console.log(newUsers)
+    //过滤删除数组中不想要的
+    console.log(users.filter(a => a.name !== '南城'))
+
+    console.log(users.map(name => name.name))
+
+    let sumage = users.reduce((pre, cur) => {
+        return pre + cur.age
+    }, 0)
+    console.log(sumage)
+
+
 </script>
 </html>

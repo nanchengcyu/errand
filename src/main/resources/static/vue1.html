@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    {{ message }}
+    <div>
+        {{arr.find(user => user.name === '南城余')?.age}}
+    </div>
+    <!--    表单双向绑定使用 v-model  -->
+    <div>
+        <input v-model="gzh">
+        <p>{{gzh}}</p>
+    </div>
+    <div v-for="(item,index) in fruits">
+        {{index + "、" +item}}
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            arr: [{name: '南城余', age: 20}],
+            gzh:'南城',
+            fruits:["苹果","橘子","li"]
+        }
+    })
+</script>
+</body>
+
+</html>

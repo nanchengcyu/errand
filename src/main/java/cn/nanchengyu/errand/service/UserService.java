@@ -1,7 +1,6 @@
 package cn.nanchengyu.errand.service;
 
 import cn.nanchengyu.errand.entity.User;
-import cn.nanchengyu.errand.utils.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 

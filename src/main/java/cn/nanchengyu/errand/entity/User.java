@@ -8,12 +8,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.Data;
 
+
 /**
  * 用户表
  * @TableName user
  */
 @TableName(value ="user")
 @Data
+
 public class User  implements Serializable {
     /**
      * id
@@ -63,4 +65,6 @@ public class User  implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+
 }

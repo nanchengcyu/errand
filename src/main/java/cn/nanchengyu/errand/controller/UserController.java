@@ -1,8 +1,8 @@
 package cn.nanchengyu.errand.controller;
 
+import cn.nanchengyu.errand.common.Result;
 import cn.nanchengyu.errand.entity.User;
 import cn.nanchengyu.errand.service.UserService;
-import cn.nanchengyu.errand.utils.Result;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+
     /**
      * 新增
      */
@@ -79,7 +80,7 @@ public class UserController {
      */
     @GetMapping("/selectAll")
     public Result selectAll(User user) {
-       List<User> users =  userService.selectAll(user);
+        List<User> users = userService.selectAll(user);
         return Result.success(users);
     }
 
@@ -88,9 +89,9 @@ public class UserController {
      * 分页查询
      */
     @GetMapping("/selectPage")
-    public Result<IPage<User>> selectPage(User user,
-                                    @RequestParam(defaultValue = "1") Integer pageNum,
-                                    @RequestParam(defaultValue = "10") Integer pageSize) {
+    public Result selectPage(User user,
+                             @RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
         IPage<User> userIPage = userService.selectPage(pageNum, pageSize);
         return Result.success(userIPage);
     }
