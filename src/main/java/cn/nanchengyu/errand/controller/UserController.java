@@ -19,6 +19,8 @@ import java.util.List;
  * @Create 2024/3/24 18:29
  * @Version 1.0
  */
+@CrossOrigin(origins = {"https://techmindwave.nanchengyu.cn", "http://localhost:7000"}, allowCredentials = "true")
+
 @RestController
 @RequestMapping("/user")
 public class UserController {

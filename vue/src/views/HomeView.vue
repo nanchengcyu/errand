@@ -53,21 +53,46 @@
           <el-breadcrumb-item>活动详情</el-breadcrumb-item>
         </el-breadcrumb>
         <div style="flex: 1;width: 0;display: flex;align-items: center;justify-content: flex-end">
-        <i class="el-icon-full-screen" style="font-size: 26px" @click="handleFull"></i>
+          <i class="el-icon-full-screen" style="font-size: 26px" @click="handleFull"></i>
           <el-dropdown>
-          <div style="display: flex;align-items: center " cursor="default">
-            <img src="@/assets/logo.png" alt="logo" style="width: 40px;height: 40px;margin: 0 5px">
-            <span>管理员</span>
-          </div>
-          <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>个人信息</el-dropdown-item>
-          <el-dropdown-item>修改密码</el-dropdown-item>
-          <el-dropdown-item>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+            <div style="display: flex;align-items: center " cursor="default">
+              <img src="@/assets/logo.png" alt="logo" style="width: 40px;height: 40px;margin: 0 5px">
+              <span>管理员</span>
+            </div>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>个人信息</el-dropdown-item>
+              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </el-header>
-      <el-main>Main</el-main>
+      <el-main>
+        <el-table
+            :data="users"
+            style="width: 100%">
+          <el-table-column
+              prop="name"
+              label="姓名"
+              width="180">
+          </el-table-column>
+          <el-table-column
+              prop="avatar"
+              label="头像">
+<!--            <div>-->
+<!--              <el-avatar src={{this.data.data.avatar}} ></el-avatar>-->
+<!--            </div>-->
+          </el-table-column>
+          <el-table-column
+              prop="role"
+              label="角色">
+          </el-table-column>
+          <el-table-column
+              prop="phone"
+              label="手机号">
+          </el-table-column>
+        </el-table>
+      </el-main>
       <el-footer>Footer</el-footer>
     </el-container>
   </el-container>
@@ -76,17 +101,41 @@
 
 
 <script>
+import request from "@/utils/request";
+import router from "@/router";
 export default {
+
   name: 'HomeView',
   data() {
     return {
       isCollapse: false,
       asideWidth: '200px',
-      collapseIcon:'el-icon-s-fold'
+      collapseIcon: 'el-icon-s-fold',
+      users: [],
+
     }
   },
+  mounted() {
+
+
+    // axios.get('http://localhost:1000/user/selectAll').then(res=>{
+    //   console.log(res)
+    //   this.users=res.data.data()
+    // })
+    request.get('user/selectAll').then(res => {
+      this.users = res.data   //此处res可以直接data是因为封装的request.js
+
+    })
+  },
   methods: {
-    handleFull(){
+    logout(){
+    localStorage.removeItem('ncy-user')
+    this.$router.push('/login')
+    },
+    router() {
+      return router
+    },
+    handleFull() {
       document.documentElement.requestFullscreen()
     },
     handleCollapse() {
@@ -125,7 +174,7 @@ export default {
 
 .el-side {
   transition: width .3s;
-  box-shadow: 2px 0 6px rgba(0,21,41,35);
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 35);
 }
 
 .logo-title {
@@ -133,8 +182,9 @@ export default {
   font-size: 20px;
   transition: all .3s;
 }
-.el-header{
-  box-shadow: 2px 0 6px rgba(0,21,41,35);
+
+.el-header {
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 35);
   display: flex;
   align-items: center;
 }

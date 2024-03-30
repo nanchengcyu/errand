@@ -1,19 +1,18 @@
 package cn.nanchengyu.errand.service.impl;
 
-import cn.nanchengyu.errand.common.ErrorCodeEnum;
 import cn.nanchengyu.errand.entity.User;
-import cn.nanchengyu.errand.exception.CustomException;
+import cn.nanchengyu.errand.exception.ServiceException;
 import cn.nanchengyu.errand.mapper.UserMapper;
 import cn.nanchengyu.errand.service.UserService;
+import cn.nanchengyu.errand.utils.TokenUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.hutool.core.util.ObjectUtil;
-import java.util.List;
 
-import static cn.nanchengyu.errand.common.ErrorCodeEnum.RESOURCE_ALREADY_EXISTS;
+import java.util.List;
 
 
 /**
@@ -30,21 +29,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public void add(User user) {
         User dbUser = this.selectByUsername(user.getUsername());
-        if (ObjectUtil.isNotNull(dbUser)){
-            throw new CustomException(ErrorCodeEnum.RESOURCE_ALREADY_EXISTS);
+        if (ObjectUtil.isNotNull(dbUser)) {
+//            throw new CustomException(ErrorCodeEnum.RESOURCE_ALREADY_EXISTS);
         }
-        if (ObjectUtil.isEmpty(user.getPassword())){
+        if (ObjectUtil.isEmpty(user.getPassword())) {
             user.setPassword("123456");
         }
         user.setRole("USER");
         userMapper.insert(user);
     }
 
-    public User selectByUsername(String username){
+    public User selectByUsername(String username) {
         User params = new User();
         params.setUsername(username);
         List<User> userList = this.selectAll(params);
-        return userList.size() == 0? null : userList.get(0);
+        return userList.size() == 0 ? null : userList.get(0);
     }
 
     @Override
@@ -72,7 +71,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public IPage<User> selectPage(Integer pageNum, Integer pageSize) {
         Page<User> userPage = new Page<>(pageNum, pageSize);
 
-        return userMapper.selectPage(userPage,null);
+        return userMapper.selectPage(userPage, null);
+    }
+
+    @Override
+    public User login(User user) {
+        User dbUser = userMapper.selectByUserName(user.getUsername());
+        //数据库判断
+        if (dbUser == null) {
+            throw new ServiceException("账号或者密码错误");
+        }
+        //前端和数据库判断
+        if(!user.getPassword().equals(dbUser.getPassword())){
+            throw new ServiceException("账号或者密码错误");
+        }
+        String userId = dbUser.getId().toString();
+        //生成token
+        String token = TokenUtils.createToken(userId, dbUser.getPassword());
+
+        user.setToken(token); //数据库中没有这个字段 所以应该是实体类的token
+        return user;
+    }
+
+    @Override
+    public void register(User user) {
+        User dbUser = userMapper.selectByUserName(user.getUsername());
+        if (dbUser != null){
+            throw new ServiceException("用户名已存在");
+        }
+        user.setUsername(user.getUsername());
+//        userMapper.register(user.getUsername(),user.getPassword());
+        userMapper.insert(user);
     }
 
 

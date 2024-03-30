@@ -2,6 +2,8 @@ package cn.nanchengyu.errand.mapper;
 
 import cn.nanchengyu.errand.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -19,6 +21,11 @@ public interface UserMapper extends BaseMapper<User> {
     int insert(User user);
 
     List<User> getAll(User user);
+    @Select("select * from errand.user where username =#{username}")
+    User selectByUserName(String username);
+//    insert into t_employee values (null, #{name}, #{sex}, #{age}, #{entryDate})
+    @Insert("insert into user (username,password) values(#{username},#{password}) ")
+    void register(String username, String password);
 }
 
 

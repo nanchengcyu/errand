@@ -26,4 +26,8 @@ public interface UserService extends IService<User> {
     User selectById(Integer id);
 
     IPage<User> selectPage(Integer pageNum, Integer pageSize);
+
+    User login(User user);
+
+    void register(User user);
 }

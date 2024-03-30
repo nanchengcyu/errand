@@ -3,11 +3,12 @@ import App from './App.vue'
 import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import request from "@/utils/request";
 
 Vue.config.productionTip = false
-Vue.use(ElementUI);
+Vue.use(ElementUI, { size: 'small' });
+Vue.prototype.$requset=request
 new Vue({
-  el: '#app',
   router,
   render: h => h(App)
 }).$mount('#app')
