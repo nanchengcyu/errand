@@ -68,30 +68,7 @@
         </div>
       </el-header>
       <el-main>
-        <el-table
-            :data="users"
-            style="width: 100%">
-          <el-table-column
-              prop="name"
-              label="姓名"
-              width="180">
-          </el-table-column>
-          <el-table-column
-              prop="avatar"
-              label="头像">
-<!--            <div>-->
-<!--              <el-avatar src={{this.data.data.avatar}} ></el-avatar>-->
-<!--            </div>-->
-          </el-table-column>
-          <el-table-column
-              prop="role"
-              label="角色">
-          </el-table-column>
-          <el-table-column
-              prop="phone"
-              label="手机号">
-          </el-table-column>
-        </el-table>
+      <router-view></router-view>
       </el-main>
       <el-footer>Footer</el-footer>
     </el-container>
@@ -103,16 +80,19 @@
 <script>
 import request from "@/utils/request";
 import router from "@/router";
+
 export default {
 
   name: 'HomeView',
   data() {
     return {
+      fileList: [],
       isCollapse: false,
       asideWidth: '200px',
       collapseIcon: 'el-icon-s-fold',
       users: [],
-
+      user: JSON.parse(localStorage.getItem('ncy-user' || '{}')),
+      url:''
     }
   },
   mounted() {
@@ -123,14 +103,34 @@ export default {
     //   this.users=res.data.data()
     // })
     request.get('user/selectAll').then(res => {
-      this.users = res.data   //此处res可以直接data是因为封装的request.js
+      this.users = res.data   //此处res可以直接data是因为封装的request.js 原来应该为res.data.data
 
     })
   },
   methods: {
-    logout(){
-    localStorage.removeItem('ncy-user')
-    this.$router.push('/login')
+    handleMultipleFileUpload(response, file, fileList){
+
+    },
+    handleTableFileUpload(row,file,fileList) {
+    row.avatar = file.response.data
+
+
+      request.put('user/update',row).then(res => {
+        if (res.code ==='200'){
+          this.$message.success('上传成功')
+        }else{
+          this.$message.error(res.msg)
+        }
+
+      })
+    },
+
+    handleFileUpload(fileList) {
+      this.fileList = fileList
+    },
+    logout() {
+      localStorage.removeItem('ncy-user')
+      this.$router.push('/login')
     },
     router() {
       return router
