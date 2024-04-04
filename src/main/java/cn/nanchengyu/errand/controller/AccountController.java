@@ -41,7 +41,7 @@ public class AccountController {
     @PostMapping("/register")
     public Result Register(@RequestBody User user) {
         // 判断前端传来数据是否为空
-        if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
+        if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())|| StrUtil.isBlank(user.getRole())) {
             return Result.error("输入账号或者密码为空");
         }
         if (user.getUsername().length()>10||user.getPassword().length()>10) {

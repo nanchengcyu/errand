@@ -1,57 +1,69 @@
 <script>
+import request from "@/utils/request";
+
 export default {
-  name: "Home",
+  name: 'HomeView',
   data() {
     return {
-
+      isCollapse: false,  // 不收缩
+      asideWidth: '200px',
+      collapseIcon: 'el-icon-s-fold',
       users: [],
-      user: JSON.parse(localStorage.getItem('ncy-user' || '{}')),
-      url:''
+      user: JSON.parse(localStorage.getItem('honey-user') || '{}'),
+      url: '',
+      urls: []
     }
   },
-
+  mounted() {   // 页面加载完成之后触发
+    request.get('/user/selectAll').then(res => {
+      this.users = res.data
+    })
+  },
+  methods: {
+    preview(url) {
+      window.open(url)  // 默认图片是预览
+    },
+    showUrls() {
+      console.log(this.urls)
+    },
+    handleMultipleFileUpload(response, file, fileList) {
+      this.urls = fileList.map(v => v.response?.data)
+    },
+    handleTableFileUpload(row, file, fileList) {
+      console.log(row, file, fileList)
+      row.avatar = file.response.data
+      // this.$set(row, 'avatar', file.response.data)
+      console.log(row)
+      // 触发更新就可以了
+      request.put('/user/update', row).then(res => {
+        if (res.code === '200') {
+          this.$message.success('上传成功')
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    handleFileUpload(response, file, fileList) {
+      console.log(response, file, fileList)
+    },
+    logout() {
+      localStorage.removeItem('honey-user')  // 清除当前的token和用户数据
+      this.$router.push('/login')
+    },
+    handleFull() {
+      document.documentElement.requestFullscreen()
+    },
+    handleCollapse() {
+      this.isCollapse = !this.isCollapse
+      this.asideWidth = this.isCollapse ? '64px' : '200px'
+      this.collapseIcon = this.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'
+    }
+  }
 }
 </script>
 
 <template>
   <el-main>
-    <el-table
-        :data="users"
-        style="width: 100%">
-      <el-table-column
-          prop="name"
-          label="姓名"
-          width="180">
-      </el-table-column>
-      <el-table-column label="文件上传">
-        <template v-slot="scope">
-          <el-upload
-              action="http://localhost:1000/file/upload"
-              :headers="{token:user.token}"
-              :show-file-list="false"
-              :on-success="(row,file,fileList)=>handleTableFileUpload(scope.row,file,fileList)"
-          >
-            <el-button size="mini" type="primary">点击上传</el-button>
-          </el-upload>
-        </template>
-
-      </el-table-column>
-      <el-table-column
-
-          label="头像">
-        <template v-slot="scope">
-          <el-image v-if="scope.row.avatar " :src="scope.row.avatar" style="width: 50px;height: 50px"></el-image>
-        </template>
-      </el-table-column>
-      <el-table-column
-          prop="role"
-          label="角色">
-      </el-table-column>
-      <el-table-column
-          prop="phone"
-          label="手机号">
-      </el-table-column>
-    </el-table>
 
     <div style="display: flex;margin: 10px 0">
       <el-card style="width: 50%;margin-right: 10px">

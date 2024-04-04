@@ -7,7 +7,7 @@ import request from "@/utils/request";
 
 Vue.config.productionTip = false
 Vue.use(ElementUI, { size: 'small' });
-Vue.prototype.$requset=request
+Vue.prototype.$request=request
 new Vue({
   router,
   render: h => h(App)

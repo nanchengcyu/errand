@@ -38,6 +38,10 @@ export default {
           // {min: 5, max: 8, message: '长度在5到8个字符', trigger: 'blur'}
         ],
 
+        role: [
+          { required: true, message: '请选择角色', trigger: 'blur'}
+          // {min: 5, max: 8, message: '长度在5到8个字符', trigger: 'blur'}
+        ],
 
       },
 
@@ -55,7 +59,7 @@ export default {
     register() {
       this.$refs["loginRef"].validate((valid) => {
         if (valid) {
-          this.$requset.post('/register', this.user).then(res => {
+          this.$request.post('/register', this.user).then(res => {
             if (res.code ==='200'){
               this.$router.push('/login')
               this.$message.success("注册成功")
@@ -94,7 +98,12 @@ export default {
           <el-form-item prop="checkPassword">
             <el-input placeholder="请输入确认密码" type="password" v-model="user.checkPassword" style="width: 85%"></el-input>
           </el-form-item>
-
+          <el-form-item prop="role">
+            <el-radio-group v-model="user.role">
+              <el-radio label="用户"></el-radio>
+              <el-radio label="商家"></el-radio>
+            </el-radio-group>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" style="width: 85%" @click.native="$router.push('/login')">返回登录</el-button>
           </el-form-item>

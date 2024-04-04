@@ -82,7 +82,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new ServiceException("账号或者密码错误");
         }
         //前端和数据库判断
-        if(!user.getPassword().equals(dbUser.getPassword())){
+        if (!user.getPassword().equals(dbUser.getPassword())) {
             throw new ServiceException("账号或者密码错误");
         }
         String userId = dbUser.getId().toString();
@@ -90,13 +90,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         String token = TokenUtils.createToken(userId, dbUser.getPassword());
 
         user.setToken(token); //数据库中没有这个字段 所以应该是实体类的token
+        user.setRole(dbUser.getRole());
+        user.setPhone(dbUser.getPhone());
+        user.setSex(dbUser.getSex());
+        user.setAvatar(dbUser.getAvatar());
         return user;
     }
 
     @Override
     public void register(User user) {
         User dbUser = userMapper.selectByUserName(user.getUsername());
-        if (dbUser != null){
+        if (dbUser != null) {
             throw new ServiceException("用户名已存在");
         }
         user.setUsername(user.getUsername());
