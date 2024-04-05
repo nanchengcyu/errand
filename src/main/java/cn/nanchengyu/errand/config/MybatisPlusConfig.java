@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan("cn.nanchengyu.errand.mapper")
+@MapperScan("cn.nanchengyu.errand.mapper")  //添加了此注解，就不需要在每个Mapper类中添加@Mapper了
 
 public class MybatisPlusConfig {
 

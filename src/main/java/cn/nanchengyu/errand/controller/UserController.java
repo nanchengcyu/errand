@@ -4,7 +4,9 @@ import cn.nanchengyu.errand.common.Result;
 import cn.nanchengyu.errand.entity.User;
 import cn.nanchengyu.errand.service.UserService;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,6 +98,19 @@ public class UserController {
                              @RequestParam(defaultValue = "10") Integer pageSize) {
         IPage<User> userIPage = userService.selectPage(pageNum, pageSize);
         return Result.success(userIPage);
+    }
+
+    @GetMapping("/selectByPage")
+    public Result selectByPage(@RequestParam Integer pageNum,
+                               @RequestParam Integer pageSize,
+                               @RequestParam String username,
+                               @RequestParam String name) {
+        //(long current, long size)
+        Page<User> page = userService.page(new Page<>(pageNum, pageSize), new QueryWrapper<User>().like("username", username).like("name", name));
+
+
+
+        return Result.success(page);
     }
 
 }

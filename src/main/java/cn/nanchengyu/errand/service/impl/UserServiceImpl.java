@@ -48,11 +48,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public void deleteById(Integer id) {
+        User currentUser = TokenUtils.getCurrentUser();
+        if (id.equals(currentUser.getId())) {
+            throw new ServiceException("不能删除当前的用户");
+        }
         userMapper.deleteById(id);
     }
 
     @Override
     public void deleteBatch(List<Integer> ids) {
+
+        User currentUser = TokenUtils.getCurrentUser();
+        if (currentUser != null && currentUser.getId() != null && ids.contains(currentUser.getId())) {
+            throw new ServiceException("不能删除当前的用户");
+        }
         userMapper.deleteBatchIds(ids);
     }
 
