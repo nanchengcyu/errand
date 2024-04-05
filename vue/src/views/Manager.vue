@@ -32,8 +32,9 @@
 
           <i :class="collapseIcon" style="font-size: 26px" @click="handleCollapse"></i>
           <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/user' }">用户管理</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/' }">系统主页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: $route.path}">{{ $route.meta.name }}</el-breadcrumb-item>
+                                          <!--router是全局路由，route是单个路由-->
           </el-breadcrumb>
 
           <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end">
@@ -45,7 +46,7 @@
               </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item @click.native="$router.push('/person')">个人信息</el-dropdown-item>
-                <el-dropdown-item>修改密码</el-dropdown-item>
+                <el-dropdown-item @click.native="$router.push('/password')">修改密码</el-dropdown-item>
                 <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -88,8 +89,8 @@ export default {
     })
   },
   methods: {
-    updateUser(user){
-      this.user = user
+    updateUser(user) { //获取子组件传过来的数据 更新当前页面的数据
+      this.user = JSON.parse(JSON.stringify(user))  //让父级的对象跟子级对象毫无关联
     },
 
     preview(url) {

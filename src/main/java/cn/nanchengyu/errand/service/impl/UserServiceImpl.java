@@ -108,6 +108,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         userMapper.insert(user);
     }
 
+    @Override
+    public void restPassword(User user) {
+        User dbUser = userMapper.selectByUserName(user.getUsername());
+        if (dbUser == null) {
+            throw new ServiceException("用户不存在");
+        }
+        if (!user.getPhone().equals(dbUser.getPhone())) {
+            throw new ServiceException("验证错误");
+        }
+        dbUser.setPassword("123"); //重置密码
+        userMapper.updatePassword(dbUser);
+
+    }
+
 
 }
 

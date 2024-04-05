@@ -4,7 +4,13 @@ import Manager from "@/views/Manager.vue";
 import Home from "@/views/manager/Home.vue";
 import User from "@/views/manager/User.vue";
 import Person from "@/views/manager/Person.vue";
+import Password from "@/views/manager/Password.vue";
 
+// 解决重复点击导航时，控制台出现报错  ---亦可在跳转时做判断
+const VueRouterPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (to) {
+    return VueRouterPush.call(this, to).catch(err => err)
+}
 Vue.use(VueRouter)
 
 const routes = [
@@ -14,12 +20,14 @@ const routes = [
         component: Manager,
         redirect: '/home',
         children: [
-            {path: 'home', name: 'home', component: Home},
-            {path: 'user', name: 'user', component: User},
-            {path: 'person', name: 'person', component: Person},
+            {path: 'home', name: 'home',meta:{name:'系统首页'}, component: Home},
+            {path: 'user', name: 'user', meta:{name:'用户管理'},component: User},
+            {path: 'person', name: 'person', meta:{name:'个人信息'},component: Person},
+            {path: 'password', name: 'password', meta:{name:'修改密码'},component: Password},
             {
                 path: '/403',
                 name: 'Auth',
+                meta:{name:'无权限'},
                 component: () => import('../views/manager/Auth.vue')
             },
 
@@ -28,11 +36,13 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
+        meta:{name:'登录'},
         component: () => import('../views/Login.vue')
     },
     {
         path: '/register',
         name: 'Register',
+        meta:{name:'注册'},
         component: () => import('../views/Register.vue')
     },
 

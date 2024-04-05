@@ -30,4 +30,6 @@ public interface UserService extends IService<User> {
     User login(User user);
 
     void register(User user);
+
+    void restPassword(User user);
 }

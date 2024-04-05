@@ -85,7 +85,7 @@ export default {
         <img src="@/assets/login.png" style="width: 95%;height: 100%" alt="login.png">
       </div>
       <div style="flex: 1;justify-content: center">
-        <el-form :model="user" :rules="rules" ref="loginRef">
+        <el-form :model="user" :rules="rules" ref="loginRef" @keyup.enter.native="register">
           <div style="font-size: 20px;font-weight: bold;text-align: center;margin-bottom: 20px;margin-right: 150px">
             欢迎注册后台管理系统
           </div>

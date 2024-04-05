@@ -7,6 +7,7 @@ import cn.nanchengyu.errand.common.Result;
 import cn.nanchengyu.errand.entity.User;
 import cn.nanchengyu.errand.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,5 +51,15 @@ public class AccountController {
 
         userService.register(user);
         return Result.success("register success");
+    }
+
+    @AuthAccess
+    @PutMapping("/password")
+    public Result password(@RequestBody User user){
+        if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPhone())) {
+            return Result.error("数据输入不合法");
+        }
+        userService.restPassword(user);
+        return Result.success();
     }
 }
