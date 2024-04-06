@@ -2,7 +2,7 @@
   <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #0f9876">
     <div style="display: flex; background-color: white; width: 50%; border-radius: 5px; overflow: hidden">
       <div style="flex: 1">
-        <img src="@/assets/login.png" alt="" style="width: 100%">
+        <img src="@/assets/login.png" alt="" style="width: 100%;height: 100%">
       </div>
       <div style="flex: 1; display: flex; align-items: center; justify-content: center">
         <el-form :model="user" style="width: 80%" :rules="rules" ref="loginRef" @keyup.enter.native="login">

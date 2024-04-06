@@ -11,6 +11,12 @@
     <div>
       <el-button type="primary" plain @click="handleAdd"> 新增</el-button>
       <el-button type="danger" plain @click="delBatch"> 批量删除</el-button>
+      <el-button type="info" plain @click="exportData"> 批量导出</el-button>
+      <el-upload action="http://localhost:1000/user/import" @on-success="handleImport" :header="{token:user.token}" :show-file-list="false"
+                 style="display: inline-block;margin-left: 10px">
+        <el-button type="primary" plain> 批量导入</el-button>
+
+      </el-upload>
     </div>
     <el-table
         :data="tableData"
@@ -145,14 +151,31 @@ export default {
     this.load()
   },
   methods: {
+    handleImport(res){
+    if (res.code==='200'){
+      this.$message.success('操作成功')
+      this.load(1)
+    }else{
+      this.$message.error(res.msg)
+    }
+    },
+    exportData() {
+      if (!this.ids.length) { //没有选择行的时候，全部导出 或者根据我的搜索条件导出数据
+        window.open('http://localhost:1000/user/export?token=' + this.user.token + "&username=" + this.username + "&name=" + this.name)
+
+      } else {
+        let idStr = this.ids.join(',')
+        window.open('http://localhost:1000/user/export?token=' + this.user.token + '&ids' + idStr)
+      }
+    },
     delBatch() {
-      if (!this.ids.length){
+      if (!this.ids.length) {
         this.$message.warning('请选择数据')
         return
       }
       this.$confirm('你确认删除吗', "确认删除", {type: "warning"}).then(response => {
-        this.$request.delete('/user/delete/batch' ,{
-          data:this.ids
+        this.$request.delete('/user/delete/batch', {
+          data: this.ids
         }).then(res => {
           if (res.code === '200') {
             this.$message.success('操作成功')

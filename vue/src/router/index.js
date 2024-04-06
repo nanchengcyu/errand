@@ -4,7 +4,6 @@ import Manager from "@/views/Manager.vue";
 import Home from "@/views/manager/Home.vue";
 import User from "@/views/manager/User.vue";
 import Person from "@/views/manager/Person.vue";
-import Password from "@/views/manager/Password.vue";
 
 // 解决重复点击导航时，控制台出现报错  ---亦可在跳转时做判断
 const VueRouterPush = VueRouter.prototype.push
@@ -23,7 +22,6 @@ const routes = [
             {path: 'home', name: 'home',meta:{name:'系统首页'}, component: Home},
             {path: 'user', name: 'user', meta:{name:'用户管理'},component: User},
             {path: 'person', name: 'person', meta:{name:'个人信息'},component: Person},
-            {path: 'password', name: 'password', meta:{name:'修改密码'},component: Password},
             {
                 path: '/403',
                 name: 'Auth',

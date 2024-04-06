@@ -70,6 +70,8 @@ export default {
         <div slot="header" class="clearfix">
           <span>文件上传下载</span>
         </div>
+        <!--  :action="$baseUrl+'/file/upload'"-->
+
         <el-upload
             class="upload-demo"
             action="http://localhost:1000/file/upload"
