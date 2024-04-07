@@ -1,8 +1,9 @@
 package cn.nanchengyu.errand.controller;
 
-import cn.hutool.core.stream.StreamUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.nanchengyu.errand.common.AuthAccess;
+import cn.nanchengyu.errand.common.HoneyLogs;
+import cn.nanchengyu.errand.common.LogType;
 import cn.nanchengyu.errand.common.Result;
 import cn.nanchengyu.errand.entity.User;
 import cn.nanchengyu.errand.service.UserService;
@@ -26,6 +27,7 @@ import javax.annotation.Resource;
 public class AccountController {
     @Resource
     UserService userService;
+    @HoneyLogs(operation = "用户管理",type = LogType.LOGIN)
 
     @PostMapping("/login")
     public Result login(@RequestBody User user) {
@@ -40,6 +42,7 @@ public class AccountController {
 
     @AuthAccess
     @PostMapping("/register")
+    @HoneyLogs(operation = "用户管理",type = LogType.REGISTER)
     public Result Register(@RequestBody User user) {
         // 判断前端传来数据是否为空
         if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())|| StrUtil.isBlank(user.getRole())) {

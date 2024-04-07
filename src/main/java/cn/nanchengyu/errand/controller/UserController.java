@@ -4,6 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import cn.nanchengyu.errand.common.HoneyLogs;
+import cn.nanchengyu.errand.common.LogType;
 import cn.nanchengyu.errand.common.Result;
 import cn.nanchengyu.errand.entity.User;
 import cn.nanchengyu.errand.service.UserService;
@@ -44,6 +46,7 @@ public class UserController {
     /**
      * 新增
      */
+    @HoneyLogs(operation = "用户管理",type = LogType.ADD)
     @PostMapping("/add")
     public Result add(@RequestBody User user) {
         userService.add(user);
@@ -54,6 +57,8 @@ public class UserController {
     /**
      * 删除
      */
+    @HoneyLogs(operation = "用户管理",type = LogType.DELETE)
+
     @DeleteMapping("/delete/{id}")
     public Result deleteById(@PathVariable Integer id) {
         userService.deleteById(id);
@@ -64,6 +69,8 @@ public class UserController {
     /**
      * 批量删除
      */
+    @HoneyLogs(operation = "用户管理",type = LogType.BATCH_DELETE)
+
     @DeleteMapping("/delete/batch")
     public Result deleteBatch(@RequestBody List<Integer> ids) {
 
@@ -74,6 +81,8 @@ public class UserController {
     /**
      * 修改 todo
      */
+    @HoneyLogs(operation = "用户管理",type = LogType.UPDATE)
+
     @PutMapping("/update")
     public Result updateById(@RequestBody User user) {
 

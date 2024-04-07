@@ -21,6 +21,7 @@
               <span>信息管理</span>
             </template>
             <el-menu-item index="/user">用户信息</el-menu-item>
+            <el-menu-item index="/logs">系统日志</el-menu-item>
           </el-submenu>
         </el-menu>
 
