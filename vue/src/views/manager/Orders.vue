@@ -1,22 +1,14 @@
 <template>
   <div>
     <div style="margin-bottom: 10px">
-      <el-input style="width: 200px;margin-right:20px" placeholder="查询用户名" v-model="username">
-      </el-input>
-      <el-input style="width: 200px " placeholder="查询姓名" v-model="name">
+      <el-input style="width: 200px;margin-right:20px" placeholder="请输入订单编号" v-model="orderNo">
       </el-input>
       <el-button type="primary" style="margin-left: 20px" @click="load(1)">查询</el-button>
       <el-button type="primary" style="margin-left: 20px" @click="reset">重置</el-button>
     </div>
     <div>
-      <el-button type="primary" plain @click="handleAdd"> 新增</el-button>
       <el-button type="danger" plain @click="delBatch"> 批量删除</el-button>
-      <el-button type="info" plain @click="exportData"> 批量导出</el-button>
-      <el-upload action="http://localhost:1000/user/import" @on-success="handleImport" :header="{token:user.token}" :show-file-list="false"
-                 style="display: inline-block;margin-left: 10px">
-        <el-button type="primary" plain> 批量导入</el-button>
 
-      </el-upload>
     </div>
     <el-table
         :data="tableData"
@@ -28,45 +20,66 @@
       </el-table-column>
       <el-table-column
           prop="id"
-          label="序号"
+          label="ID"
           width="180">
       </el-table-column>
       <el-table-column
-          prop="username"
-          label="用户名"
+          prop="orderNo"
+          label="订单编号"
           width="180">
       </el-table-column>
       <el-table-column
           prop="name"
-          label="姓名"
+          label="物品名称"
           width="180">
       </el-table-column>
       <el-table-column
-          label="头像">
+          label="物品图片">
         <template v-slot="scope">
-          <el-image style="height: 50px;width: 50px;border-radius: 50%" v-if="scope.row.avatar" :src="scope.row.avatar "
-                    :preview-src-list="[scope.row.avatar]"></el-image>
+          <el-image style="height: 50px;width: 50px;border-radius: 50%" v-if="scope.row.img" :src="scope.row.img"
+                    :preview-src-list="[scope.row.img]"></el-image>
         </template>
       </el-table-column>
       <el-table-column
-          prop="role"
-          label="角色">
+          prop="type"
+          label="物品类型">
       </el-table-column>
       <el-table-column
-          prop="phone"
-          label="手机号">
+          prop="userName"
+          label="发起人">
+      </el-table-column>
+      <el-table-column
+          prop="acceptName"
+          label="接单人">
+      </el-table-column>
+      <el-table-column
+          prop="createTime"
+          label="创建时间"
+          width="180">
+      </el-table-column>
+      <el-table-column
+          prop="acceptTime"
+          label="接单时间"
+          width="180">
+      </el-table-column>
+      <el-table-column
+          prop="status"
+          label="订单状态">
+      </el-table-column>
+      <el-table-column
+          prop="addressId"
+          label="取货地址ID">
+      </el-table-column>
+      <el-table-column
+          prop="targetId"
+          label="送货地址ID">
+      </el-table-column>
+      <el-table-column
+          prop="comment"
+          label="订单备注">
       </el-table-column>
 
-      <el-table-column
-          prop="account"
-          label="余额">
-      </el-table-column>
-      <el-table-column
-          prop="sex"
-          label="性别">
-      </el-table-column>
-
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center" width="150" fixed="right">
         <template v-slot="scope">
           <el-button type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
           <el-button type="danger" plain @click="del(scope.row.id)">删除</el-button>
@@ -83,46 +96,20 @@
           :total="total">
       </el-pagination>
     </div>
-    <el-dialog title="用户信息修改" :visible.sync="fromVisible" width="30%">
-      <el-form :model="form" label-width="80px" style="padding-right: 20px" :rules="rules" ref="formRef">
-        <div style="margin: 15px;text-align: center">
-          <el-upload
-              class="avatar-uploader"
-              action="http:localhost:1000/file/upload"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :headers="{token:user.token}"
-          >
-            <img v-if="form.avatar" :src="user.avatar" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </div>
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username" plachholder="用户名">
-          </el-input>
+    <el-dialog title="信息修改" :visible.sync="fromVisible" width="30%">
+      <el-form :model="form" label-width="80px" style="padding-right: 20px"  ref="formRef">
 
-        </el-form-item>
-        <el-form-item label="昵称" prop="name">
-          <el-input v-model="form.name" plachholder="用户名">
-          </el-input>
-
+        <el-form-item label="订单状态" prop="status" >
+          <el-select v-model="form.status">
+            <el-option value="已取消"> </el-option>
+            <el-option value="待接单"> </el-option>
+            <el-option value="待送达"> </el-option>
+            <el-option value="待收货"> </el-option>
+            <el-option value="待评价"> </el-option>
+            <el-option value="已完成"> </el-option>
+          </el-select>
         </el-form-item>
 
-        <el-form-item label="性别" prop="sex">
-        <el-radio-group v-model="form.sex">
-          <el-radio label="男"></el-radio>
-          <el-radio label="女"></el-radio>
-        </el-radio-group>
-        </el-form-item>
-        <el-form-item label="手机号" prop="username">
-          <el-input v-model="form.phone" plachholder="手机号">
-          </el-input>
-        </el-form-item>
-
-        <el-form-item label="余额" prop="account">
-          <el-input v-model="form.account" plachholder="余额">
-          </el-input>
-        </el-form-item>
 
       </el-form>
 
@@ -135,63 +122,33 @@
 </template>
 <script>
 export default {
-  name: "user",
+  name: "Orders",
   data() {
     return {
-      fromVisible: false,
-      tableData: [],
+      orderNo: null,
+      tableData: [], //展示所有数据
       pageNum: 1,
-      pageSize: 5,
-      username: '',
-      name: '',
+      pageSize: 10,
       total: 0,
       form: {},
+      fromVisible:false,
       ids: [],
-      user: JSON.parse(localStorage.getItem('ncy-user') || '{}'),
-      rules: {
-        username: [
-          {required: true, message: '请输入账号', trigger: 'blur'},
-        ],
-        name: [
-          {required: true, message: '请输入昵称', trigger: 'blur'},
-        ],
-        sex: [
-          {required: true, message: '请输入性别', trigger: 'blur'},
-        ],
-        password: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-        ],
-      }
+      orders: JSON.parse(localStorage.getItem('ncy-orders') || '{}'),
+
     }
   },
   created() {
     this.load()
   },
   methods: {
-    handleImport(res){
-    if (res.code==='200'){
-      this.$message.success('操作成功')
-      this.load(1)
-    }else{
-      this.$message.error(res.msg)
-    }
-    },
-    exportData() {
-      if (!this.ids.length) { //没有选择行的时候，全部导出 或者根据我的搜索条件导出数据
-        window.open('http://localhost:1000/user/export?token=' + this.user.token + "&username=" + this.username + "&name=" + this.name)
-
-      } else {
-        let idStr = this.ids.join(',')
-        window.open('http://localhost:1000/user/export?token=' + this.user.token + '&ids' + idStr)
-      }
-    },
+  
     delBatch() {
       if (!this.ids.length) {
         this.$message.warning('请选择数据')
         return
       }
       this.$confirm('你确认删除吗', "确认删除", {type: "warning"}).then(response => {
-        this.$request.delete('/user/delete/batch', {
+        this.$request.delete('/orders/delete/batch', {
           data: this.ids
         }).then(res => {
           if (res.code === '200') {
@@ -217,7 +174,7 @@ export default {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.$request({
-            url: this.form.id ? '/user/update' : '/user/add',
+            url: this.form.id ? '/orders/update' : '/orders/add',
             method: this.form.id ? 'PUT' : 'POST',
             data: this.form,
 
@@ -243,8 +200,8 @@ export default {
       this.form.avatar = res.data //res的data是一个图片的链接
     },
     reset() {
-      this.name = ''
-      this.username = ''
+     this.orderNo =null
+      this.load(1)
     },
     handleCurrentChange(pageNum) {
       this.pageNum = pageNum
@@ -256,12 +213,11 @@ export default {
         this.pageNum = pageNum
       }
       //分页查询
-      this.$request.get('/user/selectByPage', {
+      this.$request.get('/orders/selectPage', {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
-          username: this.username,
-          name: this.name
+          orderNo:this.orderNo
         }
       }).then(res => {
         this.tableData = res.data.records
@@ -270,7 +226,7 @@ export default {
     },
     del(id) {
       this.$confirm('你确认删除吗', "确认删除", {type: "warning"}).then(response => {
-        this.$request.delete('/user/delete/' + id).then(res => {
+        this.$request.delete('/orders/delete/' + id).then(res => {
           if (res.code === '200') {
             this.$message.success('操作成功')
             this.load(1)  //刷新表格

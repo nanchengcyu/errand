@@ -5,7 +5,7 @@
       <el-aside :width="asideWidth" style="min-height: 100vh; background-color: #001529">
         <div style="height: 60px; color: white; display: flex; align-items: center; justify-content: center">
           <img src="@/assets/logo.png" alt="" style="width: 40px; height: 40px">
-          <span class="logo-title" v-show="!isCollapse">honey2024</span>
+          <span class="logo-title" v-show="!isCollapse">校园跑腿平台</span>
         </div>
 
         <el-menu :collapse="isCollapse" :collapse-transition="false" router background-color="#001529"
@@ -21,6 +21,7 @@
               <span>信息管理</span>
             </template>
             <el-menu-item index="/user">用户信息</el-menu-item>
+            <el-menu-item index="/orders">订单信息</el-menu-item>
             <el-menu-item index="/logs">系统日志</el-menu-item>
           </el-submenu>
         </el-menu>

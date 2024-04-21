@@ -79,3 +79,25 @@ create table `logs`
   character set utf8mb4
   collate utf8mb4_unicode_ci comment ='系统日志'
   ROW_FORMAT = dynamic;
+
+-- table orders
+
+CREATE TABLE `orders` (
+                          `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                          `order_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '订单编号',
+                          `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '物品名称',
+                          `descr` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
+                          `img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '物品图片',
+                          `type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '物品类型',
+                          `weight` double(10,2) DEFAULT NULL COMMENT '物品重量',
+                          `price` double(10,2) DEFAULT NULL COMMENT '小费',
+                          `user_id` int(11) DEFAULT NULL COMMENT '发起人ID',
+                          `accept_id` int(11) DEFAULT NULL COMMENT '接单人ID',
+                          `time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建时间',
+                          `accept_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '接单时间',
+                          `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '订单状态',
+                          `address_id` int(11) DEFAULT NULL COMMENT '取货地址ID',
+                          `target_id` int(11) DEFAULT NULL COMMENT '送货地址ID',
+                          `comment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '订单备注',
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单表';
