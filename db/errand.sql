@@ -101,3 +101,16 @@ CREATE TABLE `orders` (
                           `comment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '订单备注',
                           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='订单表';
+
+
+-- table address
+
+CREATE TABLE `address` (
+                           `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                           `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '地址',
+                           `door_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '门牌号',
+                           `user_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '联系人',
+                           `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '联系电话',
+                           `user_id` int(11) DEFAULT NULL COMMENT '关联用户ID',
+                           PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='联系人信息';

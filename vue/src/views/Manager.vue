@@ -22,6 +22,7 @@
             </template>
             <el-menu-item index="/user">用户信息</el-menu-item>
             <el-menu-item index="/orders">订单信息</el-menu-item>
+            <el-menu-item index="/address">地址信息</el-menu-item>
             <el-menu-item index="/logs">系统日志</el-menu-item>
           </el-submenu>
         </el-menu>
