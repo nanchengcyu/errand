@@ -7,6 +7,7 @@ import Person from "@/views/manager/Person.vue";
 import Logs from "@/views/manager/Logs.vue";
 import Orders from "@/views/manager/Orders.vue";
 import Address from "@/views/manager/Address.vue";
+import Certification from "@/views/manager/Certification.vue";
 
 // 解决重复点击导航时，控制台出现报错  ---亦可在跳转时做判断
 const VueRouterPush = VueRouter.prototype.push
@@ -26,6 +27,7 @@ const routes = [
             {path: 'user', name: 'user', meta:{name:'用户管理'},component: User},
             {path: 'orders', name: 'orders', meta:{name:'订单管理'},component: Orders},
             {path: 'address', name: 'address', meta:{name:'地址管理'},component: Address},
+            {path: 'certification', name: 'certification', meta:{name:'骑手管理'},component: Certification},
             {path: 'person', name: 'person', meta:{name:'个人信息'},component: Person},
             {path: 'logs', name: 'logs', meta:{name:'日志信息'},component: Logs},
             {

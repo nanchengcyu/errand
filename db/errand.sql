@@ -114,3 +114,20 @@ CREATE TABLE `address` (
                            `user_id` int(11) DEFAULT NULL COMMENT '关联用户ID',
                            PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='联系人信息';
+
+
+-- table certification
+CREATE TABLE `certification` (
+                                 `id` int(11) NOT NULL AUTO_INCREMENT,
+                                 `user id` int(11) DEFAULT NULL COMMENT '账号',
+                                 `name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '名称',
+                                 `avatar` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '本人照片',
+                                 `phone` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '联系方式',
+                                 `card_no` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '身份证号码',
+                                 `card1` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '身份证正面',
+                                 `card2` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '身份证反面',
+                                 `address` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '常住地址',
+                                 `status` varchar(255) CHARACTER SET utf8mb4 DEFAULT '待审核' COMMENT '审核状态',
+                                 `reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '审核理由',
+                                 PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='骑手认证';
