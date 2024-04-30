@@ -1,6 +1,32 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>css study</title>
+</head>
 <body>
-<h1>hello word!!!</h1>
-<p>this is a html page</p>
+<!--css study-->
+<div style="width: 300px;height: 300px; border:1px solid black"></div>  <!--div属于块状元素-->
+
+<h1>flex 布局神器 study</h1>
+<div style="display: flex;width: 70%;margin-left: 100px;align-items: flex-end">
+    <div style="color: #359a44;font-size: 30px">豆瓣网</div>
+    <div style="margin-left: 30px">
+        <label>
+            <input type="text" style="border: 1px solid #ccc;padding: 10px">
+        </label>
+    </div>
+    <div style="flex:1;display: flex;font-size: 20px;justify-content: flex-end">
+        <div style="padding: 0 10px;color: #0f9876">read</div>
+        <div class="nav">listening</div>
+        <div class="nav">movie</div>
+    </div>
+</div>
 </body>
+<style>
+    .nav {
+        padding: 0 10px
+
+    }
+</style>
 </html>
